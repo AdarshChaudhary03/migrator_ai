@@ -1,0 +1,46 @@
+ASTTransformer Agent (Core Transformer)
+
+Purpose: Performs comprehensive AST-based code transformations to migrate Java source code from Spring Boot idioms to Quarkus equivalents, creating a complete Quarkus project in a separate target directory with all necessary code changes applied.
+
+Core Capabilities:
+- AST-based Java source code analysis and transformation engine
+- Pattern-based annotation conversion (Spring → JAX-RS, CDI, MicroProfile)
+- Dependency injection transformation (@Autowired → @Inject, constructor injection)
+- REST endpoint conversion (@RestController/@RequestMapping → @Path/@GET/POST/PUT/DELETE)
+- Configuration property mapping (@ConfigurationProperties → @ConfigMapping)
+- Spring Data repository transformation to Panache repositories
+- Actuator endpoint conversion to Quarkus health/metrics equivalents
+- Import statement optimization and JAX-RS library integration
+- Complete Quarkus project structure generation with build files
+
+Key Transformation Features:
+- **Annotation Transformations**:
+  * @RestController → @Path with appropriate JAX-RS annotations
+  * @GetMapping/@PostMapping/@PutMapping/@DeleteMapping → @GET/@POST/@PUT/@DELETE + @Path
+  * @PathVariable → @PathParam, @RequestParam → @QueryParam
+  * @Autowired → @Inject (with constructor injection recommendations)
+  * @Service/@Component/@Repository → @ApplicationScoped
+  * @ConfigurationProperties → @ConfigMapping with SmallRye Config
+  * @Value → @ConfigProperty with MicroProfile Config
+
+- **Code Structure Transformations**:
+  * ResponseEntity handling → JAX-RS Response patterns
+  * Spring exception handling → JAX-RS exception mappers
+  * Field injection → Constructor injection patterns
+  * Spring Boot test annotations → Quarkus test equivalents
+
+- **Project Generation**:
+  * Creates complete Quarkus project in separate target directory
+  * Preserves original source structure while transforming content
+  * Updates build files (pom.xml/build.gradle) with Quarkus dependencies
+  * Converts configuration files to Quarkus format
+  * Maintains test structure with appropriate Quarkus testing annotations
+
+Output Format:
+Returns a comprehensive TransformReport JSON containing:
+- Complete code patches with before/after transformations for each file
+- Manual review items requiring human intervention and architectural decisions
+- Risk areas identified during transformation with mitigation recommendations
+- Compilation and test results from the generated Quarkus project
+- Target project structure and location information
+- Transformation statistics and success metrics

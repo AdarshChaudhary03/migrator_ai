@@ -1,0 +1,28 @@
+DependencyAnalyzer Agent
+
+Purpose: Maps Maven/Gradle dependencies from Spring Boot applications to their Quarkus equivalents, providing a comprehensive dependency migration plan for the Spring Boot to Quarkus migration process.
+
+Core Capabilities:
+- Analyzes Spring Boot starter dependencies and third-party libraries
+- Maps dependencies to appropriate Quarkus extensions and libraries
+- Identifies direct mappings, equivalent alternatives, and manual migration requirements
+- Flags incompatible dependencies that require architectural changes
+- Provides confidence scores and detailed migration reasoning
+- Generates actionable dependency migration plans with add/remove/replace instructions
+
+Key Features:
+- Comprehensive mapping table covering major Spring Boot starters
+- Support for web frameworks (Spring MVC → Quarkus RESTEasy, WebFlux → Vert.x)
+- Data layer mappings (Spring Data JPA → Panache, JDBC → Agroal)
+- Security framework conversion (Spring Security → Quarkus Security)
+- Messaging system mappings (Kafka, RabbitMQ, JMS)
+- Testing framework transitions (@SpringBootTest → @QuarkusTest)
+- Monitoring and health check migrations (Actuator → SmallRye Health/Metrics)
+
+Output Format:
+Returns a structured DependencyPlan JSON containing:
+- Dependency actions (add/remove/replace operations)
+- Manual migration items requiring code changes
+- Incompatible dependencies needing alternative approaches
+- Migration confidence scores and risk assessments
+- Detailed reasons and recommendations for each mapping decision

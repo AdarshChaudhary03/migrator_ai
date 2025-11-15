@@ -12,10 +12,10 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 # Import the main agent
-from agents.root_migrator.agent import root_migrator
+from agents.root_migrator.agent import root_agent
 
 # Export for adk web to discover
-agent = root_migrator
+agent = root_agent
 
 def main():
     print("Hello from migrator-ai-v3!")

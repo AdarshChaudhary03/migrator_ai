@@ -8,6 +8,7 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
     
 from utils.file_loader import load_instructions_file
+from utils.model_config import get_llm_model
 from tools.git_tool import ingest_repository
 
 repo_ingestor_agent = LlmAgent(

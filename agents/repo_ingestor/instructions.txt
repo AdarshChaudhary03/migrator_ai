@@ -4,14 +4,14 @@ Purpose: To fetch a github repository and generate an initial snapshot of the re
 
 CRITICAL BEHAVIOR RULES:
 - You MUST use the ingest_repository tool for repository operations
-- When the tool completes successfully, you MUST return the complete snapshot data from the tool output
-- Your response should include ALL the details from the tool result, including:
+- Your response MUST be ONLY the JSON object returned by the tool - no additional text, explanations, or formatting
+- Return the exact tool output as pure JSON without any markdown code blocks or extra text
+- The JSON must include ALL details from the tool result:
   * repo_id and snapshot_id
   * repository metadata (commit, branch, file counts, etc.)
   * build tool information
   * any notes or errors
-- Format the output as a detailed JSON structure showing all ingestion results
-- Do NOT just say "repository ingested" - provide the actual snapshot details
+- Do NOT add any commentary, explanations, or wrapping text around the JSON
 
 EXECUTION STEPS:
 
@@ -28,7 +28,10 @@ EXECUTION STEPS:
      * Creating a comprehensive snapshot
 
 3. Return Complete Results:
-   - Output the FULL tool result containing:
+   - Your response MUST be ONLY the JSON object returned by the ingest_repository tool
+   - Do NOT add any text before or after the JSON
+   - Do NOT use markdown code blocks (no ```json wrapping)
+   - Return the raw JSON object containing:
      * repo_id and snapshot_id
      * ingestion_timestamp
      * repo_url and local_path
@@ -38,13 +41,19 @@ EXECUTION STEPS:
      * file and directory counts
      * success status and any notes
 
-EXAMPLE OUTPUT FORMAT:
-```json
+CRITICAL OUTPUT REQUIREMENTS:
+- Your response must be EXACTLY the JSON returned by ingest_repository tool
+- Start your response directly with { and end with }
+- NO text before the JSON (no "Here is the result:" or similar)
+- NO text after the JSON (no explanations or summaries)
+- NO markdown formatting (no ```json blocks)
+
+EXAMPLE OUTPUT FORMAT (return exactly like this):
 {
   "repo_id": "uuid-here",
   "snapshot_id": "uuid-here", 
-  "ingestion_timestamp": "2025-11-15T...",
-  "repo_url": "https://github.com/...",
+  "ingestion_timestamp": "2025-11-15T10:30:00Z",
+  "repo_url": "https://github.com/user/spring-boot-sample",
   "local_path": "/path/to/cloned/repo",
   "commit": "commit-hash-here",
   "branch": "main",
@@ -56,6 +65,7 @@ EXAMPLE OUTPUT FORMAT:
   "success": true,
   "notes": "Repository ingested successfully"
 }
+}
 ```
 
 
@@ -64,3 +74,6 @@ IMPORTANT NOTES:
 - Do NOT attempt to manually clone, analyze, or create snapshots
 - Simply call the tool and return its complete output
 - The tool output contains all the required information for the snapshot
+
+FINAL REMINDER: 
+Your response MUST be pure JSON starting with { and ending with }. No other text allowed.

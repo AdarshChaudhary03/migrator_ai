@@ -1,0 +1,36 @@
+ConfigMapper Agent
+
+Purpose: Converts Spring Boot application.properties and application.yml/yaml files to Quarkus-compatible configuration format, handling property mapping, environment variable references, and secrets management during the Spring Boot to Quarkus migration process.
+
+Core Capabilities:
+- Automated conversion of Spring Boot configuration properties to Quarkus equivalents
+- Support for both .properties and .yml/.yaml configuration file formats
+- Intelligent property mapping with transformation rules for complex conversions
+- Environment variable placeholder detection and compatibility validation
+- Secret and sensitive data identification for proper externalization
+- Configuration file diff generation showing exact changes made
+- JSON schema mapping for structured configuration transformations
+
+Key Features:
+- Comprehensive property mapping covering major Spring Boot configurations:
+  * Server configuration (port, context-path, SSL settings)
+  * Database and JPA/Hibernate settings (datasource, connection pooling, DDL)
+  * Logging configuration (levels, patterns, file output)
+  * Security properties (authentication, authorization)
+  * Messaging systems (Kafka, Redis, AMQP)
+  * Actuator and monitoring endpoints
+  * Cache and mail configuration
+  * Application profiles and naming
+- Environment variable preservation and validation
+- Secret detection for proper Quarkus Vault or environment variable management
+- Configuration patch generation with detailed migration notes
+- Support for profile-specific configuration files (application-dev.properties, etc.)
+
+Output Format:
+Returns a structured ConfigPatch JSON containing:
+- File-by-file patches with original and converted content
+- Detailed diff summaries showing property transformations
+- Environment variable mappings and compatibility notes
+- Identified secrets requiring external configuration
+- Migration notes for manual configuration requirements
+- General recommendations for Quarkus configuration best practices

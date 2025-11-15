@@ -7,6 +7,8 @@ import uuid
 import json
 import logging
 
+from utils.subprocess_utils import safe_decode_output, ensure_json_serializable
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -78,15 +80,16 @@ def clone_repo(repo_url: str, output_dir: str = "./output", repo_name: Optional[
         logger.info(f"Git clone stderr type: {type(result.stderr)}, content: {result.stderr[:200] if result.stderr else 'None'}")
         
         if result.returncode != 0:
+            stderr_text = safe_decode_output(result.stderr)
             error_result = {
                 "success": False,
-                "error": f"Git clone failed: {str(result.stderr)}",  # Ensure string conversion
-                "repo_url": str(repo_url),  # Ensure string conversion
+                "error": f"Git clone failed: {stderr_text}",
+                "repo_url": str(repo_url),
                 "local_path": str(local_path),
-                "git_output": str(result.stderr)  # Ensure string conversion
+                "git_output": stderr_text
             }
             logger.error(f"Git clone failed with result: {error_result}")
-            return error_result
+            return ensure_json_serializable(error_result)
         
         # Verify the repository was cloned successfully
         logger.info(f"Verifying repository clone at: {local_path}")
@@ -98,7 +101,7 @@ def clone_repo(repo_url: str, output_dir: str = "./output", repo_name: Optional[
                 "local_path": str(local_path)
             }
             logger.error(f"Repository verification failed: {error_result}")
-            return error_result
+            return ensure_json_serializable(error_result)
         
         logger.info("Repository clone verified successfully")
         
@@ -109,14 +112,14 @@ def clone_repo(repo_url: str, output_dir: str = "./output", repo_name: Optional[
         
         success_result = {
             "success": True,
-            "repo_url": str(repo_url),  # Ensure string conversion
+            "repo_url": str(repo_url),
             "local_path": str(local_path),
-            "repo_name": str(repo_name),  # Ensure string conversion
-            "git_output": str(result.stdout) if result.stdout else "",  # Ensure string conversion
+            "repo_name": str(repo_name),
+            "git_output": safe_decode_output(result.stdout),
             "metadata": metadata
         }
         logger.info(f"Clone operation completed successfully: {success_result}")
-        return success_result
+        return ensure_json_serializable(success_result)
         
     except subprocess.TimeoutExpired as e:
         timeout_result = {
@@ -126,7 +129,7 @@ def clone_repo(repo_url: str, output_dir: str = "./output", repo_name: Optional[
             "local_path": str(local_path) if 'local_path' in locals() else None
         }
         logger.error(f"Clone operation timed out: {timeout_result}")
-        return timeout_result
+        return ensure_json_serializable(timeout_result)
     except Exception as e:
         exception_result = {
             "success": False,
@@ -135,7 +138,7 @@ def clone_repo(repo_url: str, output_dir: str = "./output", repo_name: Optional[
             "local_path": str(local_path) if 'local_path' in locals() else None
         }
         logger.error(f"Unexpected error in clone_repo: {exception_result}", exc_info=True)
-        return exception_result
+        return ensure_json_serializable(exception_result)
 
 
 def get_repo_metadata(repo_path: str) -> Dict[str, Any]:
@@ -166,7 +169,7 @@ def get_repo_metadata(repo_path: str) -> Dict[str, Any]:
         )
         logger.info(f"Commit command result - returncode: {commit_result.returncode}, stdout type: {type(commit_result.stdout)}")
         if commit_result.returncode == 0:
-            commit_hash = str(commit_result.stdout).strip()  # Ensure string conversion
+            commit_hash = safe_decode_output(commit_result.stdout).strip()
             metadata["commit_hash"] = commit_hash
             logger.info(f"Commit hash extracted: {commit_hash}")
         
@@ -179,7 +182,7 @@ def get_repo_metadata(repo_path: str) -> Dict[str, Any]:
         )
         logger.info(f"Branch command result - returncode: {branch_result.returncode}, stdout type: {type(branch_result.stdout)}")
         if branch_result.returncode == 0:
-            current_branch = str(branch_result.stdout).strip()  # Ensure string conversion
+            current_branch = safe_decode_output(branch_result.stdout).strip()
             metadata["current_branch"] = current_branch
             logger.info(f"Current branch extracted: {current_branch}")
         
@@ -192,7 +195,7 @@ def get_repo_metadata(repo_path: str) -> Dict[str, Any]:
         )
         logger.info(f"Remote command result - returncode: {remote_result.returncode}, stdout type: {type(remote_result.stdout)}")
         if remote_result.returncode == 0:
-            remote_url = str(remote_result.stdout).strip()  # Ensure string conversion
+            remote_url = safe_decode_output(remote_result.stdout).strip()
             metadata["remote_url"] = remote_url
             logger.info(f"Remote URL extracted: {remote_url}")
         
@@ -243,7 +246,7 @@ def get_repo_metadata(repo_path: str) -> Dict[str, Any]:
             logger.info(f"Returned to original directory: {original_cwd}")
     
     logger.info(f"Metadata extraction completed: {metadata}")
-    return metadata
+    return ensure_json_serializable(metadata)
 
 
 def get_build_tool_info(repo_path: str) -> Dict[str, Any]:
@@ -347,7 +350,7 @@ def get_build_tool_info(repo_path: str) -> Dict[str, Any]:
         logger.error(f"Error in get_build_tool_info: {error_msg}", exc_info=True)
     
     logger.info(f"Build tool analysis completed: {build_info}")
-    return build_info
+    return ensure_json_serializable(build_info)
 
 
 def create_repo_snapshot(clone_result: Dict[str, Any], build_info: Dict[str, Any]) -> Dict[str, Any]:
@@ -415,20 +418,7 @@ def create_repo_snapshot(clone_result: Dict[str, Any], build_info: Dict[str, Any
     
     logger.info(f"Final snapshot created: {snapshot}")
     
-    # Validate all values are JSON serializable
-    try:
-        json.dumps(snapshot)
-        logger.info("Snapshot is JSON serializable")
-    except (TypeError, ValueError) as e:
-        logger.error(f"Snapshot is NOT JSON serializable: {e}")
-        # Find the problematic field
-        for key, value in snapshot.items():
-            try:
-                json.dumps(value)
-            except (TypeError, ValueError):
-                logger.error(f"Non-serializable field '{key}': {type(value)} = {value}")
-    
-    return snapshot
+    return ensure_json_serializable(snapshot)
 
 
 # Example usage function
@@ -464,4 +454,4 @@ def ingest_repository(repo_url: str, output_dir: str = "./output") -> Dict[str, 
     snapshot = create_repo_snapshot(clone_result, build_info)
     
     logger.info(f"Ingestion pipeline completed successfully")
-    return snapshot
+    return ensure_json_serializable(snapshot)

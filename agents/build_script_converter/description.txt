@@ -1,0 +1,57 @@
+BuildScriptConverter Agent
+
+Purpose: Converts Maven pom.xml or Gradle build.gradle files from Spring Boot configuration to Quarkus-compatible build setup, including plugin management, dependency updates, and native compilation configuration for complete build system migration.
+
+Core Capabilities:
+- Comprehensive Maven pom.xml to Quarkus conversion with BOM management
+- Gradle build.gradle to Quarkus transformation with plugin integration
+- Quarkus Maven/Gradle plugin configuration and setup
+- Spring Boot starter dependencies to Quarkus extensions mapping
+- Build profile translation and environment-specific configurations
+- Native image compilation configuration and GraalVM setup
+- Build property optimization for Quarkus runtime characteristics
+- Multi-module project structure preservation and conversion
+
+Key Features:
+- **Maven Build Conversion**:
+  * Quarkus BOM integration in dependencyManagement section
+  * Quarkus Maven plugin configuration with build and native goals
+  * Spring Boot parent POM replacement with Quarkus platform BOM
+  * Maven compiler properties update for Java 17+ compatibility
+  * Native compilation profile generation with GraalVM configuration
+  * Custom Maven profile conversion (dev, prod, test environments)
+
+- **Gradle Build Conversion**:
+  * Quarkus Gradle plugin integration and version management
+  * Implementation platform BOM enforcement for dependency consistency
+  * Spring Boot Gradle plugin replacement with Quarkus equivalents
+  * Native compilation task configuration and optimization
+  * Build script modernization and Gradle wrapper updates
+
+- **Dependency Management**:
+  * Integration with dependency_mapper_output for consistent extension selection
+  * Essential Quarkus extension addition (Arc CDI, RESTEasy Reactive, Jackson)
+  * Version management through Quarkus platform BOM
+  * Scope and exclusion handling for transitive dependencies
+  * Test dependency conversion (@SpringBootTest → @QuarkusTest infrastructure)
+
+- **Build Profile Management**:
+  * Development profile optimization for Quarkus live reload
+  * Production profile configuration with runtime optimization
+  * Environment-specific property management and externalization
+  * CI/CD pipeline compatibility and build automation support
+
+- **Native Compilation Support**:
+  * GraalVM native-image configuration stubs and optimization hints
+  * Reflection configuration files for runtime compatibility
+  * Resource inclusion patterns for native compilation
+  * Build argument optimization for faster native builds
+
+Output Format:
+Returns a comprehensive BuildPlan JSON containing:
+- Complete build file patches with before/after transformation content
+- List of added Quarkus extensions with descriptions and compatibility notes
+- Converted build profiles with environment-specific configurations
+- Native compilation configuration and setup instructions
+- Build conversion summary with statistics and success metrics
+- Integration recommendations for CI/CD and deployment pipelines
