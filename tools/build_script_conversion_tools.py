@@ -438,8 +438,18 @@ def _add_quarkus_maven_plugin(root: ET.Element, namespace: dict, changes_summary
         execution = ET.SubElement(executions, 'execution')
         
         goals = ET.SubElement(execution, 'goals')
-        goal = ET.SubElement(goals, 'goal')
-        goal.text = 'build'
+        
+        # Add build goal (required for quarkus:dev to work)
+        build_goal = ET.SubElement(goals, 'goal')
+        build_goal.text = 'build'
+        
+        # Add generate-code goal
+        generate_code_goal = ET.SubElement(goals, 'goal')
+        generate_code_goal.text = 'generate-code'
+        
+        # Add generate-code-tests goal
+        generate_code_tests_goal = ET.SubElement(goals, 'goal')
+        generate_code_tests_goal.text = 'generate-code-tests'
         
         changes_summary.append(f"Added Quarkus Maven plugin {QUARKUS_MAVEN_PLUGIN['version']}")
 

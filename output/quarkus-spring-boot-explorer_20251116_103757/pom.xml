@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.example</groupId>
+	<artifactId>spring-boot-explorer</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>spring-boot-explorer</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<quarkus.platform.version>3.6.0</quarkus.platform.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.quarkus.platform</groupId>
+				<artifactId>quarkus-bom</artifactId>
+				<version>${quarkus.platform.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-resteasy-reactive</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-junit5</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>io.quarkus.platform</groupId>
+				<artifactId>quarkus-maven-plugin</artifactId>
+				<version>${quarkus.platform.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build</goal>
+							<goal>generate-code</goal>
+							<goal>generate-code-tests</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>native</id>
+			<activation>
+				<property>
+					<name>native</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>io.quarkus.platform</groupId>
+						<artifactId>quarkus-maven-plugin</artifactId>
+						<version>${quarkus.platform.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>native-image</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<jvmArgs combine.children="append">
+								-Dvertx.logger-delegate-factory-class-name=io.vertx.core.impl.logging.Slf4jLogDelegateFactory
+							</jvmArgs>
+							<enableHttpUrlHandler>true</enableHttpUrlHandler>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<quarkus.package.type>native</quarkus.package.type>
+			</properties>
+		</profile>
+	</profiles>
+</project>
