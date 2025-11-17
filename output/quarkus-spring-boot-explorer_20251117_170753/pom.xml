@@ -1,0 +1,177 @@
+<?xml version="1.0" ?>
+<ns0:project xmlns:ns0="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+    
+  <ns0:modelVersion>4.0.0</ns0:modelVersion>
+  
+    
+  <ns0:parent>
+    
+        
+    <ns0:groupId>org.springframework.boot</ns0:groupId>
+    
+        
+    <ns0:artifactId>spring-boot-starter-parent</ns0:artifactId>
+    
+        
+    <ns0:version>3.4.0</ns0:version>
+    
+        
+    <ns0:relativePath/>
+     
+    
+  </ns0:parent>
+  
+    
+  <ns0:groupId>com.lahcencodes</ns0:groupId>
+  
+    
+  <ns0:artifactId>springbootexplorer</ns0:artifactId>
+  
+    
+  <ns0:version>0.0.1-SNAPSHOT</ns0:version>
+  
+    
+  <ns0:name>SpringBootExplorer</ns0:name>
+  
+    
+  <ns0:description>A simple Spring Boot project showcasing a &quot;Hello World&quot; endpoint with a friendly response.
+        The project demonstrates the foundational structure of a Spring Boot web application, which can be expanded
+        further.
+    </ns0:description>
+  
+    
+  <ns0:url/>
+  
+    
+  <ns0:licenses>
+    
+        
+    <ns0:license/>
+    
+    
+  </ns0:licenses>
+  
+    
+  <ns0:developers>
+    
+        
+    <ns0:developer/>
+    
+    
+  </ns0:developers>
+  
+    
+  <ns0:scm>
+    
+        
+    <ns0:connection/>
+    
+        
+    <ns0:developerConnection/>
+    
+        
+    <ns0:tag/>
+    
+        
+    <ns0:url/>
+    
+    
+  </ns0:scm>
+  
+    
+  <ns0:properties>
+    
+        
+    <ns0:java.version>17</ns0:java.version>
+    
+    
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <quarkus.platform.version>3.15.1</quarkus.platform.version>
+  </ns0:properties>
+  
+    
+  <ns0:dependencies>
+    
+        
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-reactive</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-arc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-reactive</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+    </dependency>
+  </ns0:dependencies>
+  
+
+    
+  <ns0:build>
+    
+        
+    <ns0:plugins>
+      
+            
+      <ns0:plugin>
+        
+                
+        <ns0:groupId>org.springframework.boot</ns0:groupId>
+        
+                
+        <ns0:artifactId>spring-boot-maven-plugin</ns0:artifactId>
+        
+            
+      </ns0:plugin>
+      
+        
+      <plugin>
+        <groupId>io.quarkus.platform</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+        <version>3.15.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build</goal>
+              <goal>generate-code</goal>
+              <goal>generate-code-tests</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </ns0:plugins>
+    
+    
+  </ns0:build>
+  
+
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.quarkus.platform</groupId>
+        <artifactId>quarkus-bom</artifactId>
+        <version>3.15.1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <profiles>
+    <profile>
+      <id>native</id>
+      <properties>
+        <skipITs>false</skipITs>
+        <quarkus.package.type>native</quarkus.package.type>
+      </properties>
+    </profile>
+  </profiles>
+</ns0:project>

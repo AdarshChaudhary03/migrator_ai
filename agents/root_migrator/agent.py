@@ -35,7 +35,7 @@ root_agent = SequentialAgent(
         dependency_mapper_agent,
         config_mapper_agent,
         transformation_parallel_agent,  # produces ast_transformer_output & build_script_converter_output
-        test_adapter_agent,              # depends on outputs from the previous parallel step
+        test_adapter_agent,              # run after parallel outputs are ready
         code_generator_agent             # consolidates AST, build, and test outputs
     ],
     description=load_instructions_file("agents/root_migrator/description.txt"),

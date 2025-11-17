@@ -1,0 +1,7 @@
+target/
+!target/*-runner
+!target/*-runner.jar
+!target/lib/*
+.mvn/
+mvnw
+mvnw.cmd
