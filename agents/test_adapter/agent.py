@@ -13,9 +13,11 @@ from tools.test_adaptation_tools import adapt_and_run_quarkus_tests
 
 test_adapter_agent = LlmAgent(
     name="test_adapter_agent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     tools=[adapt_and_run_quarkus_tests],
     instruction=load_instructions_file("agents/test_adapter/instructions.txt"),
     description=load_instructions_file("agents/test_adapter/description.txt"),
     output_key="test_adapter_output",
 )
+# Export as root_agent for ADK to find
+root_agent = test_adapter_agent

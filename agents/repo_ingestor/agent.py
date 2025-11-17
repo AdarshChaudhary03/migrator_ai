@@ -13,9 +13,12 @@ from tools.git_tool import ingest_repository
 
 repo_ingestor_agent = LlmAgent(
     name="repo_ingestor_agent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     tools=[ingest_repository],
     instruction=load_instructions_file("agents/repo_ingestor/instructions.txt"),
     description=load_instructions_file("agents/repo_ingestor/description.txt"),
     output_key="repo_ingestor_output",
 )
+
+# Export as root_agent for ADK to find
+root_agent = repo_ingestor_agent

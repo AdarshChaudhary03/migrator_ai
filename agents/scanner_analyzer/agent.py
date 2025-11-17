@@ -13,9 +13,12 @@ from tools.scanner_tools import scan_spring_boot_features
 
 scanner_analyzer_agent = LlmAgent(
     name="scanner_analyzer_agent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     tools=[scan_spring_boot_features],
     instruction=load_instructions_file("agents/scanner_analyzer/instructions.txt"),
     description=load_instructions_file("agents/scanner_analyzer/description.txt"),
     output_key="scanner_analyzer_output",
 )
+
+# Export as root_agent for ADK to find
+root_agent = scanner_analyzer_agent

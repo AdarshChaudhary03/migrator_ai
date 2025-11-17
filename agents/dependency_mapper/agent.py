@@ -13,9 +13,11 @@ from tools.dependency_mapping_tools import map_spring_dependencies_to_quarkus
 
 dependency_mapper_agent = LlmAgent(
     name="dependency_mapper_agent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     tools=[map_spring_dependencies_to_quarkus],
     instruction=load_instructions_file("agents/dependency_mapper/instructions.txt"),
     description=load_instructions_file("agents/dependency_mapper/description.txt"),
     output_key="dependency_mapper_output",
 )
+# Export as root_agent for ADK to find
+root_agent = dependency_mapper_agent

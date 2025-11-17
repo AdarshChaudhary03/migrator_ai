@@ -13,9 +13,11 @@ from tools.build_script_conversion_tools import convert_build_scripts_to_quarkus
 
 build_script_converter_agent = LlmAgent(
     name="build_script_converter_agent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     tools=[convert_build_scripts_to_quarkus],
     instruction=load_instructions_file("agents/build_script_converter/instructions.txt"),
     description=load_instructions_file("agents/build_script_converter/description.txt"),
     output_key="build_script_converter_output",
 )
+# Export as root_agent for ADK to find
+root_agent = build_script_converter_agent

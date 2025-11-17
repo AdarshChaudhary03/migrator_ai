@@ -13,9 +13,11 @@ from tools.config_mapping_tools import convert_spring_config_to_quarkus
 
 config_mapper_agent = LlmAgent(
     name="config_mapper_agent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     tools=[convert_spring_config_to_quarkus],
     instruction=load_instructions_file("agents/config_mapper/instructions.txt"),
     description=load_instructions_file("agents/config_mapper/description.txt"),
     output_key="config_mapper_output",
 )
+# Export as root_agent for ADK to find
+root_agent = config_mapper_agent

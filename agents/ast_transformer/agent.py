@@ -13,9 +13,11 @@ from tools.ast_transformation_tools import transform_spring_to_quarkus_code
 
 ast_transformer_agent = LlmAgent(
     name="ast_transformer_agent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     tools=[transform_spring_to_quarkus_code],
     instruction=load_instructions_file("agents/ast_transformer/instructions.txt"),
     description=load_instructions_file("agents/ast_transformer/description.txt"),
     output_key="ast_transformer_output",
 )
+# Export as root_agent for ADK to find
+root_agent = ast_transformer_agent
